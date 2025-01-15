@@ -5,7 +5,7 @@ export const getEmpresaAction = () => ({
   type: GET_EMPRESA,
 });
 
-export const switchEmpresaAction = () => ({
+export const switchEmpresaAction = (empresa) => ({
   type: SWITCH_EMPRESA,
-  payload: 'tevelam' ? 'discopro' : 'tevelam',
+  payload: empresa === 'tevelam' ? 'discopro' : 'tevelam',
 });

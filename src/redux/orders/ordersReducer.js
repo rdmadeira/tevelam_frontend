@@ -1,6 +1,6 @@
 import { GET_ORDERS, CREATE_ORDER } from './ordersActions.js';
 
-export const ordersReducer = (state = [], action) => {
+const ordersReducer = (state = [], action) => {
   switch (action.type) {
     case GET_ORDERS:
       return action.payload;
@@ -10,3 +10,5 @@ export const ordersReducer = (state = [], action) => {
       return state;
   }
 };
+
+export default ordersReducer;

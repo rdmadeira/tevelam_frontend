@@ -1,6 +1,6 @@
-import { SWITCH_EMPRESA, GET_EMPRESA } from './cartActions';
+import { SWITCH_EMPRESA, GET_EMPRESA } from './empresaActions.js';
 
-export const cartReducer = (state = 'tevelam', action) => {
+const empresaReducer = (state = 'tevelam', action) => {
   switch (action.type) {
     case SWITCH_EMPRESA:
       return action.payload;
@@ -11,3 +11,5 @@ export const cartReducer = (state = 'tevelam', action) => {
       return state;
   }
 };
+
+export default empresaReducer;

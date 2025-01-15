@@ -1,6 +1,6 @@
-import { ADD_ITEM_TO_CART, UPDATE_CART } from './cartActions';
+import { ADD_ITEM_TO_CART, UPDATE_CART, RESET_CART } from './cartActions';
 
-export const cartReducer = (state = [], action) => {
+const cartReducer = (state = [], action) => {
   switch (action.type) {
     case ADD_ITEM_TO_CART:
       return [...action.payload];
@@ -13,3 +13,5 @@ export const cartReducer = (state = [], action) => {
       return state;
   }
 };
+
+export default cartReducer;
