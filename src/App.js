@@ -3,25 +3,17 @@ import { Provider } from 'react-redux';
 
 import { persistor, store } from './redux/store.js';
 import { PersistGate } from 'redux-persist/integration/react';
+import Main from './components/Main.js';
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
 
 function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <div className="App">
-          <header className="App-header">
-            <p>
-              Edit <code>src/App.js</code> and save to reload.
-            </p>
-            <a
-              className="App-link"
-              href="https://reactjs.org"
-              target="_blank"
-              rel="noopener noreferrer">
-              Learn React
-            </a>
-          </header>
-        </div>
+        <Main />
       </PersistGate>
     </Provider>
   );
