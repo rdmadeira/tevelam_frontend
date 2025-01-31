@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { persistor, store } from './redux/store.js';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -13,7 +14,9 @@ function App() {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor} loading={null}>
-        <Main />
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}>
+          <Main />
+        </GoogleOAuthProvider>
       </PersistGate>
     </Provider>
   );
