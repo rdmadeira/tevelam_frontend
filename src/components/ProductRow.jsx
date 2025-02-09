@@ -13,16 +13,30 @@ const ProductRow = ({ product } /* , { ...args } */) => {
         {product.marca}
       </TableCell>
       <TableCell valign="middle" align="center">
-        {product.codigo_red[0].codigo}
+        {product.descripcion}
       </TableCell>
       <TableCell valign="middle" align="center">
-        {product.codigo_red[0].codigo}
+        {'$ ' +
+          new Intl.NumberFormat('es-AR', {
+            currency: 'ARG',
+          }).format(product.precio_arg)}
       </TableCell>
       <TableCell valign="middle" align="center">
-        {product.codigo_red[0].codigo}
+        {new Intl.NumberFormat('es-AR', {
+          style: 'percent',
+          maximumFractionDigits: 2,
+          minimumFractionDigits: 1,
+        }).format(product.tasa_iva)}
       </TableCell>
       <TableCell valign="middle" align="center">
-        {product.codigo_red[0].codigo}
+        {product.stock_disp > 5
+          ? 'Mayor a 5'
+          : 5 >= product.stock_disp < 0
+            ? 'Menor a 5'
+            : 'Sin Stock'}
+      </TableCell>
+      <TableCell valign="middle" align="center">
+        {0}
       </TableCell>
     </TableRow>
   );
