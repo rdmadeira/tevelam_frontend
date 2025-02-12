@@ -8,18 +8,19 @@ const GoogleLoginComp = () => {
 
   return (
     <GoogleLogin
+      size="large"
       onSuccess={(credentialResponse) => {
-        dispatch(
-          getUserAction({
-            type: 'GET_USER',
-            payload: { ...credentialResponse },
-          }),
-        );
+        console.log('credentialResponse', credentialResponse);
+
+        dispatch(getUserAction({ ...credentialResponse }));
       }}
       onError={(err) => {
         console.log('Login Failed', err);
       }}
       type="icon"
+      text="continue_with"
+      use_fedcm_for_prompt={false}
+      useOneTap
     />
   );
 };

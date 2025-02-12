@@ -1,8 +1,12 @@
 import React from 'react';
 import { TableRow, TableCell } from '@mui/material';
+import CantCell from './CantCell.jsx';
+import { useSelector } from 'react-redux';
 
 const ProductRow = ({ product } /* , { ...args } */) => {
-  /* console.log('product in ProductRow', product); */
+  const carrito = useSelector((store) => store.carrito);
+  const [cant, setCant] = React.useState(0);
+  /* const prodInCarrito = carrito.find((item) => item.id === product.id); */
 
   return (
     <TableRow /* {...args} */>
@@ -11,6 +15,9 @@ const ProductRow = ({ product } /* , { ...args } */) => {
       </TableCell>
       <TableCell valign="middle" align="center">
         {product.marca}
+      </TableCell>
+      <TableCell valign="middle" align="center">
+        {product.rubro}
       </TableCell>
       <TableCell valign="middle" align="center">
         {product.descripcion}
@@ -35,8 +42,20 @@ const ProductRow = ({ product } /* , { ...args } */) => {
             ? 'Menor a 5'
             : 'Sin Stock'}
       </TableCell>
+      {product && (
+        <CantCell
+          valign="middle"
+          align="center"
+          carrito={carrito}
+          setCant={setCant}
+          product={product}></CantCell>
+      )}
+
       <TableCell valign="middle" align="center">
-        {0}
+        {/* {'cart.find(item => item.id === product.id).cant'} */}
+        {new Intl.NumberFormat('es-AR', {
+          currency: 'ARG',
+        }).format(product.precio_arg * cant)}
       </TableCell>
     </TableRow>
   );
