@@ -5,14 +5,13 @@ import storage from 'redux-persist/lib/storage';
 
 import carritoReducer from './cart/cartReducer.js';
 import ordersReducer from './orders/ordersReducer.js';
-import empresaReducer from './empresa/empresaReducer.js';
+
 import userReducer from './user/userReducer.js';
 // import persistReducer from 'redux-persist/es/persistReducer';
 
 // const logger = createLogger({ diff: true });
 const rootReducer = combineReducers({
   carrito: carritoReducer,
-  empresa: empresaReducer,
   order: ordersReducer,
   user: userReducer,
 });

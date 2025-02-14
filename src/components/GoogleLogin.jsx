@@ -17,7 +17,7 @@ const GoogleLoginComp = () => {
       onError={(err) => {
         console.log('Login Failed', err);
       }}
-      type="icon"
+      type="standard"
       text="continue_with"
       use_fedcm_for_prompt={false}
       useOneTap
