@@ -9,6 +9,7 @@ const GoogleLoginComp = () => {
   return (
     <GoogleLogin
       size="large"
+      shape="circle"
       onSuccess={(credentialResponse) => {
         console.log('credentialResponse', credentialResponse);
 

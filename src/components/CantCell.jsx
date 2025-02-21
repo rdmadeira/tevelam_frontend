@@ -4,12 +4,12 @@ import { useDispatch } from 'react-redux';
 
 import * as cartActions from '../redux/cart/cartActions';
 
-const CantCell = ({ product, carrito, setCant, ...args }) => {
+const CantCell = ({ product, carrito, cant, ...args }) => {
   const dispatch = useDispatch();
 
   const changeNumberHandle = (event) => {
     event.preventDefault();
-    setCant(event.target.value);
+
     const existentItem = carrito.find((item) => item.id === product.id);
     if (existentItem) {
       const updatedCart = carrito.map((item) => {
@@ -35,7 +35,7 @@ const CantCell = ({ product, carrito, setCant, ...args }) => {
       <form style={{ height: '100%' }} onSubmit={(e) => e.preventDefault()}>
         <input
           type="number"
-          defaultValue={0}
+          defaultValue={cant}
           style={{
             border: 'none',
             height: '100%',
@@ -43,7 +43,7 @@ const CantCell = ({ product, carrito, setCant, ...args }) => {
             width: '6vw',
             padding: '10%',
           }}
-          onBlur={(e) => e.target.value > 0 && changeNumberHandle(e)}
+          onBlur={(e) => changeNumberHandle(e)}
         />
       </form>
     </TableCell>

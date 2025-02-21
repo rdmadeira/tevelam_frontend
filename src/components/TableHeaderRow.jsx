@@ -6,7 +6,11 @@ const TableHeaderRow = ({ headers }) => {
     <TableRow>
       {headers &&
         headers.map((header) => (
-          <TableCell key={'key' + header} valign="middle" align="center">
+          <TableCell
+            key={'key' + header}
+            valign="middle"
+            align="center"
+            variant="head">
             {header}
           </TableCell>
         ))}

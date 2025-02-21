@@ -1,33 +1,22 @@
 import React from 'react';
-
-import * as cartActions from '../redux/cart/cartActions';
-import { FormControl, Input } from '@mui/material';
+import { Box } from '@mui/material';
+import HeaderFormControl from './HeaderFormControl.jsx';
 
 const HeaderForm = ({ ...args }) => {
-  const changeInputValueHandle = (event) => {
-    event.preventDefault();
-  };
   return (
-    <FormControl
+    <Box
+      component={'div'}
       sx={{
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-      }}
-      required>
-      <Input
-        {...args}
-        defaultValue={''}
-        style={{
-          border: 'none',
-          width: '80%',
-          textAlign: 'center',
-
-          padding: '1%',
-        }}
-        onBlur={(e) => e.target.value > 0 && changeInputValueHandle(e)}
-      />
-    </FormControl>
+        display: 'flex',
+        flexDirection: 'column',
+        width: '50%',
+        padding: '10px 0 20px 0',
+      }}>
+      <HeaderFormControl placeholder="Número cliente" type="text" />
+      <HeaderFormControl placeholder="Cliente" type="text" />
+      <HeaderFormControl placeholder="Condición %" type="number" />
+      <HeaderFormControl placeholder="Observación" type="text" />
+    </Box>
   );
 };
 

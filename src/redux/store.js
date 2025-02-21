@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage';
 
 import carritoReducer from './cart/cartReducer.js';
 import ordersReducer from './orders/ordersReducer.js';
+import filterReducer from './filter/filterReducer.js';
 
 import userReducer from './user/userReducer.js';
 // import persistReducer from 'redux-persist/es/persistReducer';
@@ -14,13 +15,14 @@ const rootReducer = combineReducers({
   carrito: carritoReducer,
   order: ordersReducer,
   user: userReducer,
+  filter: filterReducer,
 });
 
 /* *************************** Persist Reducer ************************************* */
 
 const persistConfig = {
   key: 'root',
-  blacklist: ['carrito', 'user'],
+  blacklist: ['carrito', /* 'user', */ 'filter'],
   storage,
 };
 

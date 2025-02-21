@@ -9,17 +9,31 @@ import {
 import ProductRow from './ProductRow.jsx';
 import TableHeaderRow from './TableHeaderRow.jsx';
 
-const TableComp = ({ products } /* , { ...args } */) => {
+const TableComp = ({ products /* , filterValues, setFilterValues */ }) => {
+  /* HACER FILTRO POR PRODUCTS O POR FILTERVALUES ADENTRO DE ROW ???? */
   return (
-    <TableContainer>
+    <TableContainer style={{ width: '100%' }}>
       <Typography>Lista de precios</Typography>
-      <Table /* {...args} */>
+      <Table style={{ width: '120%', tableLayout: 'fixed' }}>
+        <colgroup>
+          <col style={{ width: '10%' }} id="codigo" />
+          <col style={{ width: '10%' }} id="marca" />
+          <col style={{ width: '10%' }} id="rubro" />
+          <col style={{ width: '10%' }} id="nombre" />
+          <col style={{ width: '26%' }} id="descripcion" />
+          <col style={{ width: '10%' }} id="pvc" />
+          <col style={{ width: '7%' }} id="iva" />
+          <col style={{ width: '10%' }} id="stock" />
+          <col style={{ width: '7%' }} id="cant" />
+          <col style={{ width: '13%' }} id="sub" />
+        </colgroup>
         <TableHead>
           <TableHeaderRow
             headers={[
               'Codigo',
               'Marca',
               'Rubro',
+              'Modelo',
               'Descripción',
               'PVC',
               'Iva',
@@ -29,7 +43,7 @@ const TableComp = ({ products } /* , { ...args } */) => {
             ]}
           />
         </TableHead>
-        <TableBody>
+        <TableBody style={{ width: '100%' }}>
           {products?.map((product) => (
             <ProductRow product={product} key={product.id} />
           ))}

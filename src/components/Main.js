@@ -18,6 +18,7 @@ import HeaderForm from './HeaderForm.jsx';
 /* import ToogleEmpresaButton from './ToogleEmpresaButton.jsx'; */
 
 import TableComp from './Table.jsx';
+import FilterContainer from './FilterContainer.jsx';
 
 const Main = () => {
   const user = useSelector((state) => state.user);
@@ -26,22 +27,22 @@ const Main = () => {
 
   const [products, setProducts] = React.useState(null);
 
-  const [empresa, setEmpresa] = React.useState(null);
-  console.log('empresa', empresa);
+  const [empresa, setEmpresa] = React.useState('tevelam');
 
   const axiosInstance = useAxios(user || { clientId: null, credential: null });
 
   React.useEffect(() => {
     const queryObj = queryString.parse(window.location.search);
-    setEmpresa(queryObj.focus || 'tevelam');
-    const entidad = `products/?empresa=${empresa}&iscurrent=true`;
+
+    const entidad = `products/?empresa=${queryObj.focus}&iscurrent=true`;
 
     user &&
       axiosInstance.get(entidad).then((value) => {
+        setEmpresa(queryObj?.focus || 'tevelam');
+
         setProducts(value.data.data);
       });
-  }, [user, axiosInstance, empresa]);
-  console.log('products', products);
+  }, [empresa, setEmpresa, user, axiosInstance]);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -55,24 +56,14 @@ const Main = () => {
         margin: '2 3 3 2',
         flexDirection: 'column',
         paddingLeft: '0px',
-        alignItems: 'center',
       }}>
       <>
         <Container
           sx={{
             display: 'Flex',
             justifyContent: 'space-between',
-            /* paddingLeft: '0px', */
+            alignItems: 'flex-start',
           }}>
-          {/* <Box
-            component={'img'}
-            src={
-              empresa === 'tevelam'
-                ? '/assets/tevelam_3.jpg'
-                : '/assets/discopro.png'
-            }
-            sx={{ maxWidth: '550px', maxHeight: '150px' }}
-          /> */}
           {
             <>
               <Box
@@ -80,64 +71,50 @@ const Main = () => {
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  backgroundImage: `url(/assets/tevelam_2.jpg)`,
+                  backgroundImage:
+                    empresa === 'tevelam'
+                      ? `url(/assets/tevelam_3.jpg)`
+                      : `url(/assets/discopro.png)`,
                   /* backgroundSize: '100%', */
                   backgroundPositionY: 'center',
-                  width: '100%',
-                  position: 'relative',
-                  paddingLeft: '!0px',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundColor: '#4b4b4d',
+                  width: '300px',
+                  height: '200px',
+
+                  paddingLeft: '0px',
                   paddingRight: '0px',
-                }}>
+                }}></Box>
+              {user && (
                 <Typography
                   style={{
-                    position: 'absolute',
-                    bottom: '20px',
-                    right: '20px',
+                    height: '30px',
+                    alignSelf: 'flex-end',
                   }}
                   sx={
                     empresa === 'tevelam'
                       ? {
-                          background: '#fc2d01',
-                          color: 'white',
                           padding: '4px 7px 4px 7px',
-                          borderRadius: '10px',
                         }
                       : {
-                          background: '#4b4b4d',
-                          color: 'white',
                           padding: '4px 7px 4px 7px',
-                          borderRadius: '10px',
                         }
                   }>
-                  {user &&
-                    'Hoy es ' +
-                      new Date(Date.now()).toLocaleDateString('es-AR')}
+                  {'Hoy es ' + new Date(Date.now()).toLocaleDateString('es-AR')}
                 </Typography>
-              </Box>
-              {user && (
-                <Box
-                  component={'div'}
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    width: '50%',
-                    padding: '10px 0 20px 0',
-                  }}>
-                  <HeaderForm placeholder="Número cliente" type="text" />
-                  <HeaderForm placeholder="Cliente" type="text" />
-                  <HeaderForm placeholder="Condición %" type="number" />
-                  <HeaderForm placeholder="Observación" type="text" />
-                </Box>
               )}
+              {user && <HeaderForm />}
             </>
           }
 
-          {!user && <GoogleLoginComp />}
+          {!user && (
+            <Box sx={{ marginTop: '20px' }}>
+              <GoogleLoginComp />
+            </Box>
+          )}
         </Container>
 
-        <Paper
-          elevation={'3'}
-          style={{ scrollMargin: true, width: 'fit-content' }}>
+        <Paper elevation={'3'} style={{ scrollMargin: true, width: '100%' }}>
           {user && (
             <>
               <Button onClick={toggleDrawer(true)}>Marcas</Button>
@@ -145,9 +122,22 @@ const Main = () => {
                 {'DrawerList'}
               </Drawer>
               <ResetCartButton />
+              {products && (
+                <FilterContainer
+                  products={products}
+                  /* filterValues={filterValues}
+                  setFilterValues={setFilterValues} */
+                />
+              )}
             </>
           )}
-          {products && <TableComp products={products} />}
+          {products && (
+            <TableComp
+              products={products}
+              /* filterValues={filterValues}
+              setFilterValues={setFilterValues} */
+            />
+          )}
         </Paper>
       </>
     </Container>
