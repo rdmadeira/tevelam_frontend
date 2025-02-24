@@ -1,12 +1,11 @@
 import React from 'react';
 
-import * as cartActions from '../redux/cart/cartActions';
 import { FormControl, Input } from '@mui/material';
 
-const HeaderFormControl = ({ ...args }) => {
-  const changeInputValueHandle = (event) => {
+const HeaderFormControl = ({ endAdornment, ...args }) => {
+  /* const changeInputValueHandle = (event) => {
     event.preventDefault();
-  };
+  }; */
   return (
     <FormControl
       sx={{
@@ -20,12 +19,13 @@ const HeaderFormControl = ({ ...args }) => {
         defaultValue={''}
         style={{
           border: 'none',
-          width: '80%',
+          width: '100%',
           textAlign: 'center',
-
+          color: 'white',
           padding: '1%',
         }}
-        onBlur={(e) => e.target.value > 0 && changeInputValueHandle(e)}
+        /* onBlur={(e) => e.target.value > 0 && changeInputValueHandle(e)} */
+        endAdornment={endAdornment}
       />
     </FormControl>
   );

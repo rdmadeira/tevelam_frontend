@@ -4,16 +4,17 @@ import {
   TableBody,
   TableHead,
   TableContainer,
-  Typography,
+  LinearProgress,
 } from '@mui/material';
 import ProductRow from './ProductRow.jsx';
 import TableHeaderRow from './TableHeaderRow.jsx';
 
 const TableComp = ({ products /* , filterValues, setFilterValues */ }) => {
   /* HACER FILTRO POR PRODUCTS O POR FILTERVALUES ADENTRO DE ROW ???? */
-  return (
+  return !products ? (
+    <LinearProgress color="info" />
+  ) : (
     <TableContainer style={{ width: '100%' }}>
-      <Typography>Lista de precios</Typography>
       <Table style={{ width: '120%', tableLayout: 'fixed' }}>
         <colgroup>
           <col style={{ width: '10%' }} id="codigo" />

@@ -3,12 +3,13 @@ import { TableCell, TableRow } from '@mui/material';
 
 const TableHeaderRow = ({ headers }) => {
   return (
-    <TableRow>
+    <TableRow sx={{ backgroundColor: '#ffa4a4' }}>
       {headers &&
         headers.map((header) => (
           <TableCell
             key={'key' + header}
             valign="middle"
+            sx={{ color: '#585353' }}
             align="center"
             variant="head">
             {header}

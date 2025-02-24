@@ -28,39 +28,6 @@ const useAxios = (user) => {
         .setExpirationTime('1h')
         .sign(secret);
 
-      /* const privateKey = crypto.createPrivateKey(   // Cuando compila para web, crypto no existe, porque es de Node
-        process.env.REACT_APP_JWT_SECRET,
-      ); */
-      /* typeof window !== 'undefined'
-          ? await window.crypto.subtle.generateKey(
-              {
-                name: 'HMAC',
-                hash: { name: 'SHA-256' },
-              },
-              true,
-              ['sign', 'verify'],
-            )
-          : await crypto.subtle.generateKey(
-              {
-                name: 'HMAC',
-                hash: { name: 'SHA-256' },
-              },
-              true,
-              ['sign', 'verify'],
-            );
- */
-      //const privatekey = createPrivateKey(process.env.REACT_APP_JWT_SECRET);
-
-      // const token = jwt.sign(payload, pairKey, {
-      //   expiresIn: 3600,
-      //   algorithm: ['RS256'],
-      //   allowInsecureKeySizes: true,
-      //   /* allowInsecureKeySizes: true,
-      //   allowInvalidAsymmetricKeyTypes: true,
-      //   algorithm: ['none'], */
-      // });
-      // console.log('token', token);
-
       config.data = secret;
       if (jwtoken) {
         config.headers.Authorization = 'Bearer ' + jwtoken;

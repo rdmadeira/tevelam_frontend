@@ -1,0 +1,5 @@
+React.useEffect(() => {
+    if (carrito.length === 0) {
+      document.getElementById('cant_input' + product.id).reset();
+    }
+  });

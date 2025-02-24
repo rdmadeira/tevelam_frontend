@@ -89,23 +89,17 @@ const ProductRow = ({ product }) => {
         <TableCell
           valign="middle"
           align="center"
-          sx={{
+          /*  sx={{
             width: '10%',
-            backgroundColor:
-              product.stock_disp > 5
-                ? '#8adc8a'
-                : product.stock_disp <= 5 && product.stock_disp > 0
-                  ? '#f2f29a'
-                  : '#f9a5a5',
-          }}>
+          }} */
+        >
           <StockComp stock={product.stock_disp} />
         </TableCell>
         {product && (
-          <CantCell // Ver Cant!!!!
-            valign="middle" // Ver Cant!!!!
-            align="center" // Ver Cant!!!!
-            carrito={carrito} // Ver Cant!!!!
-            // Ver Cant!!!! // Ver cant!!!!!!!!
+          <CantCell
+            valign="middle"
+            align="center"
+            carrito={carrito}
             product={product}
             cant={prodInCarrito?.cant || 0}
             sx={{ width: '300px' }}></CantCell>
