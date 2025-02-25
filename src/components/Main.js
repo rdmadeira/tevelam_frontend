@@ -1,12 +1,11 @@
 import React from 'react';
 import { Container, Paper, Box } from '@mui/material';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 
 import useAxios from '../hooks/useAxios';
 
-import ResetCartButton from './ResetCartButton.jsx';
 import Header from './Header.jsx';
 
 import TableComp from './Table.jsx';
@@ -15,12 +14,16 @@ import FilterContainer from './FilterContainer.jsx';
 import Image from './CustomImage.jsx';
 import logoMarcas from '../data/logomarcas.json';
 
+import * as userActions from '../redux/user/userActions.js';
+
 const Main = () => {
   const user = useSelector((state) => state.user);
 
   const [products, setProducts] = React.useState(null);
 
   const [empresa, setEmpresa] = React.useState('tevelam');
+
+  const dispatch = useDispatch();
 
   const axiosInstance = useAxios(user || { clientId: null, credential: null });
 
@@ -32,9 +35,17 @@ const Main = () => {
     setEmpresa(queryObj?.focus || 'tevelam');
 
     user &&
-      axiosInstance.get(entidad).then((value) => {
-        setProducts(value.data.data);
-      });
+      axiosInstance
+        .get(entidad)
+        .then((value) => {
+          setProducts(value.data.data);
+        })
+        .catch((error) => {
+          console.log('error.response', error.response);
+          if (error.response.status === 401) {
+            dispatch(userActions.signOutAction());
+          }
+        });
   }, [empresa, setEmpresa, user, axiosInstance]);
 
   return (

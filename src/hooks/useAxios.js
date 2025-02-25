@@ -13,9 +13,6 @@ const useAxios = (user) => {
     });
 
     axiosInstance.interceptors.request.use(async (config) => {
-      //const localStorageToken =
-      /* localStorage.getItem('authTvl') */
-
       const payload = {
         iat: Math.floor(Date.now() / 1000),
         credential: user?.credential,
@@ -34,6 +31,14 @@ const useAxios = (user) => {
       }
       return config;
     });
+    /* axiosInstance.interceptors.response.use(
+      (res) => res,
+      (err) => {
+        if (err.response.status === 401) {
+          console.log('err.response', err.response);
+        }
+      },
+    ); */
     return axiosInstance;
   }, [user?.credential, user?.clientId]);
   return axiosCachedInstance;
