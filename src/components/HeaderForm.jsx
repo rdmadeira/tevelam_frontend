@@ -20,7 +20,7 @@ function formReducer(state, action) {
   }
 }
 
-const HeaderForm = ({ ...args }) => {
+const HeaderForm = ({ handleClickOpen }) => {
   const carrito = useSelector((store) => store.carrito);
   const user = useSelector((store) => store.user);
   const [formState, formDispatch] = React.useReducer(formReducer, {
@@ -31,7 +31,6 @@ const HeaderForm = ({ ...args }) => {
   });
 
   const dispatch = useDispatch();
-  console.log('formState', formState);
 
   const submitHandle = (e) => {
     e.preventDefault();
@@ -45,8 +44,6 @@ const HeaderForm = ({ ...args }) => {
   };
 
   const inputBlurHandle = (event) => {
-    console.log('event.target', event.target.name);
-
     formDispatch({
       type: 'change_input',
       payload: { ...formState, [event.target.name]: event.target.value },
@@ -109,7 +106,8 @@ const HeaderForm = ({ ...args }) => {
           }
         />
       </Box>
-      <Button type="submit">Confirmar Pedido</Button>
+      <Button onClick={handleClickOpen('body')}>Enviar Pedido</Button>
+      {/* <Button type="submit">Confirmar Pedido</Button> */}
     </form>
   );
 };

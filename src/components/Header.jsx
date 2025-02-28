@@ -6,7 +6,7 @@ import HeaderForm from './HeaderForm.jsx';
 import GoogleLogoutComp from './GoogleLogout.jsx';
 import ResetCartButton from './ResetCartButton.jsx';
 
-const Header = ({ empresa, user }) => {
+const Header = ({ empresa, user, handleClickOpen }) => {
   return (
     <Box
       sx={{
@@ -63,7 +63,7 @@ const Header = ({ empresa, user }) => {
                 <ResetCartButton />
                 <GoogleLogoutComp empresa={empresa} />
               </Box>
-              <HeaderForm />
+              <HeaderForm handleClickOpen={handleClickOpen} />
             </Box>
           )}
         </>

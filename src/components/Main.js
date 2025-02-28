@@ -7,12 +7,11 @@ import queryString from 'query-string';
 import useAxios from '../hooks/useAxios';
 
 import Header from './Header.jsx';
-
 import TableComp from './Table.jsx';
 import FilterContainer from './FilterContainer.jsx';
-
 import Image from './CustomImage.jsx';
 import logoMarcas from '../data/logomarcas.json';
+import OrderModal from '../components/OrderModal.jsx';
 
 import * as userActions from '../redux/user/userActions.js';
 
@@ -26,11 +25,33 @@ const Main = () => {
   const dispatch = useDispatch();
 
   const axiosInstance = useAxios(user || { clientId: null, credential: null });
+  const [open, setOpen] = React.useState(false);
+  const [scroll, setScroll] = React.useState('paper');
+
+  const handleClickOpen = (scrollType) => () => {
+    setOpen(true);
+    setScroll(scrollType);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const descriptionElementRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (open) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [open]);
 
   React.useEffect(() => {
     const queryObj = queryString.parse(window.location.search);
 
-    const entidad = `products/?empresa=${queryObj.focus}&iscurrent=true`;
+    const entidad = `products/?empresa=${queryObj.focus || 'tevelam'}&iscurrent=true`;
 
     setEmpresa(queryObj?.focus || 'tevelam');
 
@@ -46,7 +67,7 @@ const Main = () => {
             dispatch(userActions.signOutAction());
           }
         });
-  }, [empresa, setEmpresa, user, axiosInstance]);
+  }, [empresa, setEmpresa, user, axiosInstance, dispatch]);
 
   return (
     <Box
@@ -57,7 +78,18 @@ const Main = () => {
         flexDirection: 'column',
       }}>
       <>
-        <Header empresa={empresa} user={user} />
+        <OrderModal
+          handleClose={handleClose}
+          handleClickOpen={handleClickOpen}
+          open={open}
+          scroll={scroll}
+          descriptionElementRef={descriptionElementRef}
+        />
+        <Header
+          empresa={empresa}
+          user={user}
+          handleClickOpen={handleClickOpen}
+        />
         <Container>
           <Paper
             elevation={'3'}

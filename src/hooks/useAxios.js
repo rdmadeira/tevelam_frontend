@@ -14,7 +14,7 @@ const useAxios = (user) => {
 
     axiosInstance.interceptors.request.use(async (config) => {
       const payload = {
-        iat: Math.floor(Date.now() / 1000),
+        iat: user?.iat,
         credential: user?.credential,
         clientId: user?.clientId,
       };
@@ -40,7 +40,7 @@ const useAxios = (user) => {
       },
     ); */
     return axiosInstance;
-  }, [user?.credential, user?.clientId]);
+  }, [user?.credential, user?.clientId, user?.iat]);
   return axiosCachedInstance;
 };
 

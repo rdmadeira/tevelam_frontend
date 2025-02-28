@@ -13,10 +13,15 @@ const GoogleLoginComp = () => {
       onSuccess={(credentialResponse) => {
         console.log('credentialResponse', credentialResponse);
 
-        dispatch(getUserAction({ ...credentialResponse }));
+        dispatch(
+          getUserAction({ ...credentialResponse, iat: Date.now() / 1000 }),
+        );
       }}
       onError={(err) => {
         console.log('Login Failed', err);
+        return {
+          error: err.message,
+        };
       }}
       type="standard"
       text="continue_with"
