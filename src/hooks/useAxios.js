@@ -19,26 +19,27 @@ const useAxios = (user) => {
         clientId: user?.clientId,
       };
 
-      const secret = new TextEncoder().encode(process.env.REACT_APP_JWT_SECRET);
-      const jwtoken = await new jose.SignJWT(payload)
-        .setProtectedHeader({ alg: 'HS256' })
-        .setExpirationTime('1h')
-        .sign(secret);
+      try {
+        const secret = new TextEncoder().encode(
+          process.env.REACT_APP_JWT_SECRET,
+        );
 
-      config.data = secret;
-      if (jwtoken) {
-        config.headers.Authorization = 'Bearer ' + jwtoken;
-      }
-      return config;
-    });
-    /* axiosInstance.interceptors.response.use(
-      (res) => res,
-      (err) => {
-        if (err.response.status === 401) {
-          console.log('err.response', err.response);
+        const jwtoken = await new jose.SignJWT(payload)
+          .setProtectedHeader({ alg: 'HS256' })
+          .setExpirationTime('1h')
+          .sign(secret);
+
+        //config.data = secret;
+        if (jwtoken) {
+          config.headers.Authorization = 'Bearer ' + jwtoken;
         }
-      },
-    ); */
+
+        return config;
+      } catch (error) {
+        console.log('error', error);
+      }
+    });
+
     return axiosInstance;
   }, [user?.credential, user?.clientId, user?.iat]);
   return axiosCachedInstance;

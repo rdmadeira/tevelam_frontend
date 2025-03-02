@@ -11,7 +11,7 @@ import TableComp from './Table.jsx';
 import FilterContainer from './FilterContainer.jsx';
 import Image from './CustomImage.jsx';
 import logoMarcas from '../data/logomarcas.json';
-import OrderModal from '../components/OrderModal.jsx';
+import OrderDialogConfirm from './OrderDialogConfirm.jsx';
 
 import * as userActions from '../redux/user/userActions.js';
 
@@ -25,28 +25,26 @@ const Main = () => {
   const dispatch = useDispatch();
 
   const axiosInstance = useAxios(user || { clientId: null, credential: null });
-  const [open, setOpen] = React.useState(false);
+  const [openDialogConfirm, setOpenDialogConfirm] = React.useState(false);
+
   const [scroll, setScroll] = React.useState('paper');
 
-  const handleClickOpen = (scrollType) => () => {
-    setOpen(true);
+  // El handleClickOpen no abría en OrderDialogConfirm entonces puse en cache con useCallback para que no re-renderice por cambio de este estado
+  const handleClickOpen = React.useCallback((scrollType) => {
+    setOpenDialogConfirm(true);
     setScroll(scrollType);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  }, []);
 
   const descriptionElementRef = React.useRef(null);
 
   React.useEffect(() => {
-    if (open) {
+    if (openDialogConfirm) {
       const { current: descriptionElement } = descriptionElementRef;
       if (descriptionElement !== null) {
         descriptionElement.focus();
       }
     }
-  }, [open]);
+  }, [openDialogConfirm]);
 
   React.useEffect(() => {
     const queryObj = queryString.parse(window.location.search);
@@ -78,13 +76,14 @@ const Main = () => {
         flexDirection: 'column',
       }}>
       <>
-        <OrderModal
-          handleClose={handleClose}
+        <OrderDialogConfirm
           handleClickOpen={handleClickOpen}
-          open={open}
+          open={openDialogConfirm}
           scroll={scroll}
           descriptionElementRef={descriptionElementRef}
+          setOpen={setOpenDialogConfirm}
         />
+
         <Header
           empresa={empresa}
           user={user}

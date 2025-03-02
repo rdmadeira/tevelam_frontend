@@ -1,11 +1,11 @@
-import { GET_ORDERS, CREATE_ORDER } from './ordersActions.js';
+import { /* GET_ORDERS, */ CREATE_ORDER } from './ordersActions.js';
 
 const ordersReducer = (state = [], action) => {
   switch (action.type) {
-    case GET_ORDERS:
-      return action.payload;
+    /* case GET_ORDERS:
+      return action.payload; */
     case CREATE_ORDER:
-      return [...state, action.payload];
+      return action.payload;
     default:
       return state;
   }

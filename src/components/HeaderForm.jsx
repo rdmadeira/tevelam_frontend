@@ -32,14 +32,15 @@ const HeaderForm = ({ handleClickOpen }) => {
 
   const dispatch = useDispatch();
 
-  const submitHandle = (e) => {
-    e.preventDefault();
-
+  const submitHandle = () => {
     const order = {
       carrito,
       user,
       headerForm: formState,
     };
+
+    handleClickOpen('body');
+
     dispatch(orderActions.createOrder(order));
   };
 
@@ -51,7 +52,7 @@ const HeaderForm = ({ handleClickOpen }) => {
   };
 
   return (
-    <form id="order-form" onSubmit={(e) => submitHandle(e)}>
+    <form id="order-form">
       <Box
         component={'div'}
         sx={{
@@ -106,7 +107,12 @@ const HeaderForm = ({ handleClickOpen }) => {
           }
         />
       </Box>
-      <Button onClick={handleClickOpen('body')}>Enviar Pedido</Button>
+      <Button
+        onClick={() => {
+          submitHandle();
+        }}>
+        Enviar Pedido
+      </Button>
       {/* <Button type="submit">Confirmar Pedido</Button> */}
     </form>
   );
