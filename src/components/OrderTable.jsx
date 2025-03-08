@@ -6,10 +6,11 @@ import {
   TableRow,
   TableCell,
   TableHead,
+  TableFooter,
 } from '@mui/material';
 import TableHeaderRow from './TableHeaderRow.jsx';
 
-const OrderTable = () => {
+const OrderTable = ({ subtotal }) => {
   const carrito = useSelector((store) => store.carrito);
 
   return (
@@ -61,6 +62,19 @@ const OrderTable = () => {
           </TableRow>
         ))}
       </TableBody>
+      <TableFooter>
+        <TableRow style={{ textAlign: 'end', width: '100%' }}>
+          <TableCell> </TableCell>
+
+          <TableCell>Subtotal: </TableCell>
+          <TableCell>
+            {'$ ' +
+              new Intl.NumberFormat('es-AR', {
+                currency: 'ARG',
+              }).format(subtotal)}
+          </TableCell>
+        </TableRow>
+      </TableFooter>
     </Table>
   );
 };

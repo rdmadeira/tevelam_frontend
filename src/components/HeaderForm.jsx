@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, InputAdornment } from '@mui/material';
 import PercentIcon from '@mui/icons-material/Percent';
 import CreateIcon from '@mui/icons-material/Create';
+import SpinnerBackdrop from './MyBackdrop.jsx';
 
 import HeaderFormControl from './HeaderFormControl.jsx';
 import * as orderActions from '../redux/orders/ordersActions.js';
@@ -52,69 +53,72 @@ const HeaderForm = ({ handleClickOpen }) => {
   };
 
   return (
-    <form id="order-form">
-      <Box
-        component={'div'}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-          padding: '10px 0 20px 0',
-        }}>
-        <HeaderFormControl
-          onBlur={(e) => inputBlurHandle(e)}
-          placeholder="Número cliente"
-          type="text"
-          name="numerocliente"
-          endAdornment={
-            <InputAdornment position="start">
-              <CreateIcon />
-            </InputAdornment>
-          }
-        />
-        <HeaderFormControl
-          onBlur={(e) => inputBlurHandle(e)}
-          placeholder="Cliente"
-          type="text"
-          name="cliente"
-          endAdornment={
-            <InputAdornment position="start">
-              <CreateIcon />
-            </InputAdornment>
-          }
-        />
-        <HeaderFormControl
-          onBlur={(e) => inputBlurHandle(e)}
-          placeholder="Condición %"
-          type="number"
-          name="condicion"
-          endAdornment={
-            <InputAdornment position="start">
-              <PercentIcon />
-            </InputAdornment>
-          }
-        />
-        <HeaderFormControl
-          onBlur={(e) => inputBlurHandle(e)}
-          placeholder="Observación"
-          type="text"
-          name="obs"
-          required={false}
-          endAdornment={
-            <InputAdornment position="start">
-              <CreateIcon />
-            </InputAdornment>
-          }
-        />
-      </Box>
-      <Button
-        onClick={() => {
-          submitHandle();
-        }}>
-        Enviar Pedido
-      </Button>
-      {/* <Button type="submit">Confirmar Pedido</Button> */}
-    </form>
+    <>
+      <SpinnerBackdrop />
+      <form id="order-form">
+        <Box
+          component={'div'}
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            padding: '10px 0 20px 0',
+          }}>
+          <HeaderFormControl
+            onBlur={(e) => inputBlurHandle(e)}
+            placeholder="Número cliente"
+            type="text"
+            name="numerocliente"
+            endAdornment={
+              <InputAdornment position="start">
+                <CreateIcon />
+              </InputAdornment>
+            }
+          />
+          <HeaderFormControl
+            onBlur={(e) => inputBlurHandle(e)}
+            placeholder="Cliente"
+            type="text"
+            name="cliente"
+            endAdornment={
+              <InputAdornment position="start">
+                <CreateIcon />
+              </InputAdornment>
+            }
+          />
+          <HeaderFormControl
+            onBlur={(e) => inputBlurHandle(e)}
+            placeholder="Condición %"
+            type="number"
+            name="condicion"
+            endAdornment={
+              <InputAdornment position="start">
+                <PercentIcon />
+              </InputAdornment>
+            }
+          />
+          <HeaderFormControl
+            onBlur={(e) => inputBlurHandle(e)}
+            placeholder="Observación"
+            type="text"
+            name="obs"
+            required={false}
+            endAdornment={
+              <InputAdornment position="start">
+                <CreateIcon />
+              </InputAdornment>
+            }
+          />
+        </Box>
+        <Button
+          onClick={() => {
+            submitHandle();
+          }}>
+          Enviar Pedido
+        </Button>
+        {/* <Button type="submit">Confirmar Pedido</Button> */}
+      </form>
+    </>
   );
 };
 

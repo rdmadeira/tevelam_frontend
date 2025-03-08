@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 
 import {
   Button,
@@ -9,10 +10,9 @@ import {
   DialogTitle,
 } from '@mui/material';
 
-import OrderTable from './OrderTable.jsx';
-import { useSelector } from 'react-redux';
 import useAxios from '../hooks/useAxios.js';
-
+import OrderTable from './OrderTable.jsx';
+import SpinnerBackdrop from './MyBackdrop.jsx';
 import CreatedOrderModal from './CreatedOrderModal.jsx';
 
 const OrderDialogConfirm = ({
@@ -27,6 +27,11 @@ const OrderDialogConfirm = ({
   const { carrito, user, order } = useSelector((store) => store);
   const axiosInstance = useAxios(user);
 
+  const [backdropOpen, setBackdropOpen] = React.useState(false);
+
+  let subtotal = 0;
+  carrito.forEach((item) => (subtotal += item.cant * item.precio_arg));
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -36,12 +41,16 @@ const OrderDialogConfirm = ({
       userId: user.clientId,
       headerForm: order.headerForm,
       carrito: carrito,
+      subtotal,
     };
 
+    setBackdropOpen(true);
     axiosInstance
       .post(`orders/create`, orderToSend)
       .then((response) => {
         setCreatedOrder(response.data.data);
+        console.log('response.data.data', response.data.data);
+        setBackdropOpen(false);
         setOpenCreatedOrderModal(true);
         handleClose();
       })
@@ -58,13 +67,18 @@ const OrderDialogConfirm = ({
         maxWidth
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description">
+        <SpinnerBackdrop
+          backdropOpen={backdropOpen}
+          color="inherit"
+          size={40}
+        />
         <DialogTitle id="scroll-dialog-title">Pedido: </DialogTitle>
         <DialogContent dividers={scroll === 'paper'}>
           <DialogContentText
             id="scroll-dialog-description"
             ref={descriptionElementRef}
             tabIndex={-1}></DialogContentText>
-          <OrderTable />
+          <OrderTable subtotal={subtotal} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
@@ -75,6 +89,7 @@ const OrderDialogConfirm = ({
         open={openCreatedOrderModal}
         setOpen={setOpenCreatedOrderModal}
         createdOrder={createdOrder}
+        subtotal={subtotal}
       />
     </React.Fragment>
   );

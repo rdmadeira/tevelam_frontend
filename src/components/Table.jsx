@@ -1,19 +1,11 @@
 import React from 'react';
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableContainer,
-  LinearProgress,
-} from '@mui/material';
+import { Table, TableBody, TableHead, TableContainer } from '@mui/material';
 import ProductRow from './ProductRow.jsx';
 import TableHeaderRow from './TableHeaderRow.jsx';
 
 const TableComp = ({ products /* , filterValues, setFilterValues */ }) => {
   /* HACER FILTRO POR PRODUCTS O POR FILTERVALUES ADENTRO DE ROW ???? */
-  return !products ? (
-    <LinearProgress color="info" />
-  ) : (
+  return (
     <TableContainer style={{ width: '100%' }}>
       <Table style={{ width: '120%', tableLayout: 'fixed' }}>
         <colgroup>
