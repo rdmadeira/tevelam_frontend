@@ -1,5 +1,6 @@
 import React from 'react';
 import { GoogleLogin } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { getUserAction } from '../redux/user/userActions';
 
@@ -11,10 +12,15 @@ const GoogleLoginComp = () => {
       size="large"
       shape="circle"
       onSuccess={(credentialResponse) => {
-        console.log('credentialResponse', credentialResponse);
+        const { email, name } = jwtDecode(credentialResponse.credential);
 
         dispatch(
-          getUserAction({ ...credentialResponse, iat: Date.now() / 1000 }),
+          getUserAction({
+            ...credentialResponse,
+            email,
+            name,
+            iat: Date.now() / 1000,
+          }),
         );
       }}
       onError={(err) => {
