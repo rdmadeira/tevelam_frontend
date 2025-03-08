@@ -4,6 +4,7 @@ import { Box, Button, InputAdornment } from '@mui/material';
 import PercentIcon from '@mui/icons-material/Percent';
 import CreateIcon from '@mui/icons-material/Create';
 import SpinnerBackdrop from './MyBackdrop.jsx';
+import ShoppingCartCheckoutIcon from '@mui/icons-material/ShoppingCartCheckout';
 
 import HeaderFormControl from './HeaderFormControl.jsx';
 import * as orderActions from '../redux/orders/ordersActions.js';
@@ -113,7 +114,11 @@ const HeaderForm = ({ handleClickOpen }) => {
         <Button
           onClick={() => {
             submitHandle();
-          }}>
+          }}
+          style={{
+            background: '#deb887',
+          }}
+          startIcon={<ShoppingCartCheckoutIcon sx={{ marginLeft: '5px' }} />}>
           Enviar Pedido
         </Button>
         {/* <Button type="submit">Confirmar Pedido</Button> */}

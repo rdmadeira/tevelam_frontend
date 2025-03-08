@@ -33,9 +33,6 @@ const CreatedOrderModal = ({ setOpen, open, createdOrder, subtotal }) => {
   const handleClose = () => {
     setOpen(false);
   };
-  console.log('createdOrder', createdOrder);
-
-  console.log('subtotal', subtotal);
 
   return (
     <React.Fragment>
