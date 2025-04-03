@@ -13,7 +13,7 @@ const TableComp = ({ products /* , filterValues, setFilterValues */ }) => {
           <col style={{ width: '10%' }} id="marca" />
           <col style={{ width: '10%' }} id="rubro" />
           <col style={{ width: '10%' }} id="nombre" />
-          <col style={{ width: '26%' }} id="descripcion" />
+
           <col style={{ width: '10%' }} id="pvc" />
           <col style={{ width: '7%' }} id="iva" />
           <col style={{ width: '10%' }} id="stock" />
@@ -27,7 +27,7 @@ const TableComp = ({ products /* , filterValues, setFilterValues */ }) => {
               'Marca',
               'Rubro',
               'Modelo',
-              'Descripción',
+              /* 'Descripción', */
               'PVC',
               'Iva',
               'Stock',

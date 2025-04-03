@@ -12,13 +12,19 @@ const GoogleLoginComp = () => {
       size="large"
       shape="circle"
       onSuccess={(credentialResponse) => {
-        const { email, name } = jwtDecode(credentialResponse.credential);
-
+        const { email, name, sub } = jwtDecode(credentialResponse.credential);
+        /* console.log('jwtDecode', jwtDecode(credentialResponse.credential));
+        console.log(
+          '"102764579276710548924"',
+          jwtDecode(credentialResponse.credential.sub()),
+        );
+ */
         dispatch(
           getUserAction({
             ...credentialResponse,
             email,
             name,
+            sub,
             iat: Date.now() / 1000,
           }),
         );

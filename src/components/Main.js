@@ -16,27 +16,6 @@ import SpinnerBackdrop from './MyBackdrop.jsx';
 
 import * as userActions from '../redux/user/userActions.js';
 
-/* const productsReducer = (state, action) => {
-  switch (action.type) {
-    case 'GET_PRODUCTS':
-      return {
-        ...state,
-        data: action.payload,
-        isLoading: false,
-        isFetched: true,
-      };
-
-    case 'IS_LOADING':
-      return {
-        ...state,
-        isLoading: true,
-        isFetched: false,
-      };
-    default:
-      return state;
-  }
-}; */
-
 const Main = () => {
   const user = useSelector((state) => state.user);
 
@@ -47,7 +26,7 @@ const Main = () => {
     data: null,
   }); */
   const [backdropOpen, setBackdropOpen] = React.useState(false);
-  console.log('backdropOpen', backdropOpen);
+  const [isAdmin, setIsAdmin] = React.useState(false);
 
   const [empresa, setEmpresa] = React.useState('tevelam');
 
@@ -81,7 +60,11 @@ const Main = () => {
     const entidad = `products/?empresa=${queryObj.focus || 'tevelam'}&iscurrent=true`;
 
     setEmpresa(queryObj?.focus || 'tevelam');
+
     user && setBackdropOpen(true);
+    !user && setBackdropOpen(false);
+
+    user?.sub?.match(process.env.REACT_APP_OAUTH_SUB) && setIsAdmin(true);
 
     user &&
       axiosInstance
@@ -91,9 +74,15 @@ const Main = () => {
           setProducts(value.data.data);
         })
         .catch((error) => {
-          console.log('error', error);
           if (error?.response?.status === 401) {
             reduxdispatch(userActions.signOutAction());
+          }
+          if (error?.code === 'ERR_NETWORK') {
+            setBackdropOpen(false);
+
+            throw new Error(`Error 503: Server Unavailable.
+              Code: ${error.code}
+              Message: ${error.message}`);
           }
         });
   }, [
@@ -110,7 +99,6 @@ const Main = () => {
       className="App"
       sx={{
         display: 'Flex',
-        /* margin: '2 3 3 2', */
         flexDirection: 'column',
       }}>
       <>
@@ -126,6 +114,7 @@ const Main = () => {
           empresa={empresa}
           user={user}
           handleClickOpen={handleClickOpen}
+          isAdmin={isAdmin}
         />
         <Container>
           <Paper
@@ -152,29 +141,15 @@ const Main = () => {
                 ))}
               </Box>
             )}
-            {user && products && (
-              <FilterContainer
-                products={products}
-                /* filterValues={filterValues}
-                  setFilterValues={setFilterValues} */
-              />
-            )}
+            {user && products && <FilterContainer products={products} />}
             {
               <SpinnerBackdrop
                 backdropOpen={backdropOpen}
                 color="inherit"
                 size={40}
-                /* color="primary"
-                size={'80'} */
               />
             }
-            {user && !backdropOpen && (
-              <TableComp
-                products={products}
-                /* filterValues={filterValues}
-              setFilterValues={setFilterValues} */
-              />
-            )}
+            {user && !backdropOpen && <TableComp products={products} />}
           </Paper>
         </Container>
       </>

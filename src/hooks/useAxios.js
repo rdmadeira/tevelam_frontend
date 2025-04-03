@@ -9,7 +9,7 @@ const useAxios = (user) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      baseURL: process.env.REACT_APP_API_BASE_URL,
+      baseURL: process.env.REACT_APP_API_BASE_URL_PROD,
     });
 
     axiosInstance.interceptors.request.use(async (config) => {
