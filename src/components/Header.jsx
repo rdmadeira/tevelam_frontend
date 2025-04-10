@@ -49,7 +49,11 @@ const Header = ({ empresa, user, handleClickOpen, isAdmin }) => {
         display: 'Flex',
         justifyContent: 'space-between',
         alignItems: 'stretch',
-        backgroundColor: empresa === 'tevelam' ? '#ee1c24' : '#4b4b4d',
+        backgroundColor: empresa === 'tevelam' ? '#c46464' : '#4b4b4d',
+        backgroundImage: empresa === 'tevelam' && `url(/assets/tevelam_4.jpg)`,
+        backgroundSize: '111%',
+        backgroundPositionX: 'center',
+        backgroundBlendMode: 'exclusion',
         padding: '10px 20px 10px 20px',
       }}>
       {
@@ -60,9 +64,10 @@ const Header = ({ empresa, user, handleClickOpen, isAdmin }) => {
               display: 'flex',
               backgroundImage:
                 empresa === 'tevelam'
-                  ? `url(/assets/tevelam_6.jpg)`
+                  ? `url(/assets/tevelam_3.jpg)`
                   : `url(/assets/discopro.png)`,
-              /* backgroundSize: '100%', */
+              backgroundColor: empresa === 'tevelam' && '#524949',
+              backgroundBlendMode: 'exclusion',
               backgroundPositionY: 'center',
               backgroundRepeat: 'no-repeat',
               width: '300px',
