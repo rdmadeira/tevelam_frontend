@@ -6,7 +6,7 @@ const StockComp = ({ stock }) => {
     <Box
       sx={{
         borderRadius: '10px',
-        padding: '10px',
+        padding: '7px 10px',
         backgroundColor:
           stock > 5
             ? '#8adc8a'

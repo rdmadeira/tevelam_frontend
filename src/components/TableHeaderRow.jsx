@@ -9,7 +9,7 @@ const TableHeaderRow = ({ headers }) => {
           <TableCell
             key={'key' + header}
             valign="middle"
-            sx={{ color: '#585353' }}
+            sx={{ color: '#585353', fontSize: '1.4vw' }}
             align="center"
             variant="head">
             {header}

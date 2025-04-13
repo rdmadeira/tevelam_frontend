@@ -1,17 +1,32 @@
 import React from 'react';
 import {
   TableRow,
-  TableCell,
+  /* TableCell, */
   Popover,
   Card,
   CardMedia,
   CardContent,
   Typography,
   Box,
+  TableCell,
 } from '@mui/material';
 import CantCell from './CantCell.jsx';
 import { useSelector } from 'react-redux';
 import StockComp from './StockComponent.jsx';
+
+export const CustomTableCell = ({ children, ...args }) => {
+  return (
+    <TableCell
+      sx={{
+        fontSize: 'min(1.2vw, 15px)',
+        textAlign: 'center',
+        verticalAlign: 'middle',
+      }}
+      {...args}>
+      {children}
+    </TableCell>
+  );
+};
 
 const ProductRow = ({ product }) => {
   const stockDeProducto = product.codigo_red
@@ -72,15 +87,15 @@ const ProductRow = ({ product }) => {
   return (
     isFiltered(product, filterValues) && (
       <TableRow>
-        <TableCell valign="middle" align="center" sx={{ width: '10%' }}>
+        <CustomTableCell valign="middle" align="center">
           {product.codigo_red[0].codigo}
-        </TableCell>
-        <TableCell valign="middle" align="center" sx={{ width: '10%' }}>
+        </CustomTableCell>
+        <CustomTableCell valign="middle" align="center">
           {product.marca}
-        </TableCell>
-        <TableCell valign="middle" align="center" sx={{ width: '10%' }}>
+        </CustomTableCell>
+        <CustomTableCell valign="middle" align="center">
           {product.rubro}
-        </TableCell>
+        </CustomTableCell>
         <Popover
           anchorEl={anchorEl}
           sx={{ width: '60%', pointerEvents: 'none' }}
@@ -107,9 +122,7 @@ const ProductRow = ({ product }) => {
             </CardContent>
           </Card>
         </Popover>
-        <TableCell
-          valign="middle"
-          align="center"
+        <CustomTableCell
           padding="none"
           onMouseEnter={handlePopoverOpen}
           onMouseLeave={handlePopoverClose}
@@ -121,56 +134,69 @@ const ProductRow = ({ product }) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              /* padding: '10px 10px', */
-              height: '55px',
+              padding: '7px 10px',
               border: 'solid 1px black',
               borderRadius: '10px',
               margin: 0,
             }}>
-            <Typography>{product.nombre}</Typography>
+            {product.nombre}
           </Box>
-        </TableCell>
+        </CustomTableCell>
 
-        <TableCell valign="middle" align="center" sx={{ width: '10%' }}>
-          {'$ ' +
-            new Intl.NumberFormat('es-AR', {
-              currency: 'ARG',
-            }).format(product.precio_arg)}
-        </TableCell>
-        <TableCell valign="middle" align="center" sx={{ width: '10%' }}>
+        <CustomTableCell valign="middle" align="center">
           {new Intl.NumberFormat('es-AR', {
             style: 'percent',
             maximumFractionDigits: 2,
             minimumFractionDigits: 1,
           }).format(product.tasa_iva)}
-        </TableCell>
-        <TableCell
-          valign="middle"
-          align="center"
-          /*  sx={{
-            width: '10%',
-          }} */
-        >
+        </CustomTableCell>
+        <CustomTableCell padding="none">
           <StockComp stock={stockDeProducto} />
-        </TableCell>
+        </CustomTableCell>
         {product && (
           <CantCell
             valign="middle"
             align="center"
             carrito={carrito}
             product={product}
-            cant={prodInCarrito?.cant || 0}
-            sx={{ width: '300px' }}></CantCell>
+            cant={prodInCarrito?.cant || 0}></CantCell>
         )}
 
-        <TableCell valign="middle" align="center">
+        <CustomTableCell
+          valign="middle"
+          align="center"
+          sx={{ backgroundColor: '#df94942b', fontSize: 'min(1.2vw, 15px)' }}>
+          {'$ ' +
+            new Intl.NumberFormat('es-AR', {
+              currency: 'ARG',
+            }).format(product.precio_arg)}
+        </CustomTableCell>
+        <CustomTableCell
+          valign="middle"
+          align="center"
+          sx={{ backgroundColor: '#d6ffe6', fontSize: 'min(1.2vw, 15px)' }}>
           {
             '$ ' +
               new Intl.NumberFormat('es-AR', {
                 currency: 'ARG',
-              }).format(product.precio_arg * prodInCarrito?.cant || 0) // Ver Cant!!!!
+                maximumFractionDigits: 0,
+              }).format(product.precio_arg * (1 + product.tasa_iva) * 1.25) // Ver Cant!!!!
           }
-        </TableCell>
+        </CustomTableCell>
+        <CustomTableCell
+          valign="middle"
+          align="center"
+          sx={{ backgroundColor: '#fdffd2', fontSize: 'min(1.2vw, 15px)' }}>
+          {
+            '$ ' +
+              new Intl.NumberFormat('es-AR', {
+                currency: 'ARG',
+                maximumFractionDigits: 0,
+              }).format(
+                product.precio_arg * (1 + product.tasa_iva) * 1.25 * 1.3,
+              ) // Ver Cant!!!!
+          }
+        </CustomTableCell>
       </TableRow>
     )
   );

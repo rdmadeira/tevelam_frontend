@@ -1,8 +1,10 @@
 import React from 'react';
-import { TableCell } from '@mui/material';
+
 import { useDispatch } from 'react-redux';
 
 import * as cartActions from '../redux/cart/cartActions';
+
+import { CustomTableCell } from '../components/ProductRow.jsx';
 
 const CantCell = ({ product, carrito, cant, ...args }) => {
   const dispatch = useDispatch();
@@ -44,7 +46,7 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
     }
   };
   return (
-    <TableCell {...args}>
+    <CustomTableCell {...args}>
       <form
         style={{ height: '100%' }}
         onSubmit={(e) => e.preventDefault()}
@@ -56,13 +58,14 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
             border: 'none',
             height: '100%',
             textAlign: 'center',
-            width: '6vw',
+            width: '100%',
             padding: '10%',
+            fontSize: 'min(1.2vw, 15px)',
           }}
           onBlur={(e) => changeNumberHandle(e)}
         />
       </form>
-    </TableCell>
+    </CustomTableCell>
   );
 };
 
