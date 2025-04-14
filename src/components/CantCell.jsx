@@ -8,6 +8,7 @@ import { CustomTableCell } from '../components/ProductRow.jsx';
 
 const CantCell = ({ product, carrito, cant, ...args }) => {
   const dispatch = useDispatch();
+  const [cantError, setCantError] = React.useState(false);
 
   React.useEffect(() => {
     if (carrito.length === 0) {
@@ -20,8 +21,12 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
 
     const existentItem = carrito.find((item) => item.id === product.id);
 
+    if (isNaN(event.target.value) || event.target.value < 0) {
+      setCantError(true);
+    }
+
     if (
-      (existentItem && parseInt(event.target.value) === 0) ||
+      (existentItem && event.target.value === 0) ||
       event.target.value === ''
     ) {
       dispatch(cartActions.deleteItemToCart(existentItem?.id));
@@ -46,7 +51,9 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
     }
   };
   return (
-    <CustomTableCell {...args} sx={{ padding: 0 }}>
+    <CustomTableCell
+      {...args}
+      sx={{ padding: 0, border: cantError ? 'red 1px solid' : 'none' }}>
       <form
         style={{ height: '100%' }}
         onSubmit={(e) => e.preventDefault()}
@@ -56,10 +63,11 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
         </label>
         <input
           id="cantidad_input"
-          type="number"
+          type="text"
+          inputMode="numeric"
           onFocus={(e) => e.target.select()}
           defaultValue={cant}
-          value={0}
+          /* value={0} */
           className="[&::-webkit-inner-spin-button]:appearance-none"
           style={{
             border: 'none',
