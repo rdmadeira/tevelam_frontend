@@ -46,19 +46,26 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
     }
   };
   return (
-    <CustomTableCell {...args}>
+    <CustomTableCell {...args} sx={{ padding: 0 }}>
       <form
         style={{ height: '100%' }}
         onSubmit={(e) => e.preventDefault()}
         id={'cant_form' + product.id}>
+        <label htmlFor="cantidad_input" style={{ display: 'none' }}>
+          ok
+        </label>
         <input
+          id="cantidad_input"
           type="number"
+          onFocus={(e) => e.target.select()}
           defaultValue={cant}
+          value={0}
+          className="[&::-webkit-inner-spin-button]:appearance-none"
           style={{
             border: 'none',
             height: '100%',
             textAlign: 'center',
-            width: '100%',
+            width: '5vw',
             padding: '10%',
             fontSize: 'min(1.2vw, 15px)',
           }}
