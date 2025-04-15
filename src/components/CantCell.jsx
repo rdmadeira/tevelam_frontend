@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import * as cartActions from '../redux/cart/cartActions';
 
 import { CustomTableCell } from '../components/ProductRow.jsx';
+import { Typography } from '@mui/material';
 
 const CantCell = ({ product, carrito, cant, ...args }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,8 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
 
     if (isNaN(event.target.value) || event.target.value < 0) {
       setCantError(true);
+    } else {
+      setCantError(false);
     }
 
     if (
@@ -53,7 +56,21 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
   return (
     <CustomTableCell
       {...args}
-      sx={{ padding: 0, border: cantError ? 'red 1px solid' : 'none' }}>
+      sx={{
+        padding: 0,
+        border: cantError && 'red 1px solid',
+        position: 'relative',
+      }}>
+      {cantError && (
+        <Typography
+          color="red"
+          fontSize={'max(0.5vw,8px)'}
+          position={'absolute'}
+          top={0}
+          left={0}>
+          Solamente numeros no negativos!
+        </Typography>
+      )}
       <form
         style={{ height: '100%' }}
         onSubmit={(e) => e.preventDefault()}
