@@ -20,13 +20,16 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
   const changeNumberHandle = (event) => {
     event.preventDefault();
 
-    const existentItem = carrito.find((item) => item.id === product.id);
-
-    if (isNaN(event.target.value) || event.target.value < 0) {
+    if (
+      Number.isInteger(Number(event.target.value)) ===
+        false /* isNaN(event.target.value) */ ||
+      event.target.value < 0
+    ) {
       setCantError(true);
     } else {
       setCantError(false);
     }
+    const existentItem = carrito.find((item) => item.id === product.id);
 
     if (
       (existentItem && event.target.value === 0) ||
@@ -54,10 +57,7 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
     }
   };
   return cantError ? (
-    <Tooltip
-      title="Solamente numeros no negativos!"
-      placement="right-start"
-      arrow>
+    <Tooltip title="Solamente numeros enteros!" placement="right-start" arrow>
       <CustomTableCell
         {...args}
         sx={{
@@ -79,7 +79,7 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
             onFocus={(e) => e.target.select()}
             defaultValue={cant}
             /* value={0} */
-            className="[&::-webkit-inner-spin-button]:appearance-none"
+
             style={{
               border: 'none',
               height: '100%',
