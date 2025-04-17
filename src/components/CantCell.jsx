@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import * as cartActions from '../redux/cart/cartActions';
 
 import { CustomTableCell } from '../components/ProductRow.jsx';
-import { Typography } from '@mui/material';
+import { Typography, Tooltip } from '@mui/material';
 
 const CantCell = ({ product, carrito, cant, ...args }) => {
   const dispatch = useDispatch();
@@ -53,24 +53,55 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
         );
     }
   };
-  return (
+  return cantError ? (
+    <Tooltip
+      title="Solamente numeros no negativos!"
+      placement="right-start"
+      arrow>
+      <CustomTableCell
+        {...args}
+        sx={{
+          padding: 0,
+          border: cantError && 'solid 2px #d80f0f',
+          position: 'relative',
+        }}>
+        <form
+          style={{ height: '100%' }}
+          onSubmit={(e) => e.preventDefault()}
+          id={'cant_form' + product.id}>
+          <label htmlFor="cantidad_input" style={{ display: 'none' }}>
+            ok
+          </label>
+          <input
+            id="cantidad_input"
+            type="text"
+            inputMode="numeric"
+            onFocus={(e) => e.target.select()}
+            defaultValue={cant}
+            /* value={0} */
+            className="[&::-webkit-inner-spin-button]:appearance-none"
+            style={{
+              border: 'none',
+              height: '100%',
+              textAlign: 'center',
+              width: '5vw',
+              padding: '10%',
+              fontSize: 'min(1.2vw, 15px)',
+              backgroundColor: cantError && '#ffeded',
+            }}
+            onBlur={(e) => changeNumberHandle(e)}
+          />
+        </form>
+      </CustomTableCell>
+    </Tooltip>
+  ) : (
     <CustomTableCell
       {...args}
       sx={{
         padding: 0,
-        border: cantError && 'red 1px solid',
+        border: cantError && 'solid 2px #ffc9c9',
         position: 'relative',
       }}>
-      {cantError && (
-        <Typography
-          color="red"
-          fontSize={'max(0.5vw,8px)'}
-          position={'absolute'}
-          top={0}
-          left={0}>
-          Solamente numeros no negativos!
-        </Typography>
-      )}
       <form
         style={{ height: '100%' }}
         onSubmit={(e) => e.preventDefault()}
@@ -93,6 +124,7 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
             width: '5vw',
             padding: '10%',
             fontSize: 'min(1.2vw, 15px)',
+            backgroundColor: cantError && '#ffc9c9',
           }}
           onBlur={(e) => changeNumberHandle(e)}
         />
