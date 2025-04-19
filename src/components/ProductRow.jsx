@@ -4,31 +4,41 @@ import {
   /* TableCell, */
   Popover,
   Card,
-  CardMedia,
   CardContent,
   Typography,
   Box,
   TableCell,
 } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import CantCell from './CantCell.jsx';
 import { useSelector } from 'react-redux';
 import StockComp from './StockComponent.jsx';
 
-export const CustomTableCell = ({ children, ...args }) => {
+export const CustomTableCell = ({ header, children, ...args }) => {
   return (
-    <TableCell
-      sx={{
-        fontSize: 'min(1.2vw, 15px)',
-        textAlign: 'center',
-        verticalAlign: 'middle',
-      }}
-      {...args}>
-      {children}
-    </TableCell>
+    <>
+      <TableCell
+        className="table-body-cell"
+        sx={{
+          fontSize: 'min(1.2vw, 15px)',
+          textAlign: 'center',
+          verticalAlign: 'middle',
+        }}
+        {...args}>
+        {header !== 'Stock' && (
+          <span className="cell-header">{header + ': '}</span>
+        )}
+
+        {children}
+      </TableCell>
+    </>
   );
 };
 
-const ProductRow = ({ product }) => {
+const ProductRow = ({ product, headers }) => {
+  const matchesMobile = useMediaQuery('(max-width:600px)');
+
   const stockDeProducto = product.codigo_red
     .map((item) => item.stock_dis)
     .reduce((a, b) => a + b, 0);
@@ -86,118 +96,136 @@ const ProductRow = ({ product }) => {
 
   return (
     isFiltered(product, filterValues) && (
-      <TableRow>
-        <CustomTableCell valign="middle" align="center">
-          {product.codigo_red[0].codigo}
-        </CustomTableCell>
-        <CustomTableCell valign="middle" align="center">
-          {product.marca}
-        </CustomTableCell>
-        <CustomTableCell valign="middle" align="center">
-          {product.rubro}
-        </CustomTableCell>
-        <Popover
-          anchorEl={anchorEl}
-          sx={{ width: '60%', pointerEvents: 'none' }}
-          open={open}
-          onClose={handlePopoverClose}
-          anchorReference="anchorEl"
-          anchorPosition={{ top: 0, left: 0 }}
-          anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}>
-          <Card sx={{ width: '400px', display: 'flex', flexDirection: 'row' }}>
-            {/* <CardMedia component={'image'} imageRendering={product.image} /> */}
-
-            <img
-              srcSet={product.image}
-              alt={product.nombre}
-              width={'40%'}
-              height={'80%'}
-            />
-
-            <CardContent>
-              <Typography>{product.descripcion}</Typography>
-            </CardContent>
-          </Card>
-        </Popover>
-        <CustomTableCell
-          padding="none"
-          onMouseEnter={handlePopoverOpen}
-          onMouseLeave={handlePopoverClose}
-          aria-owns={open ? 'mouse-over-popover' : undefined}
-          aria-haspopup="true">
-          <Box
+      <div className="table-row-conteiner">
+        <TableRow className="product-row">
+          <CustomTableCell valign="middle" align="center" header={headers[0]}>
+            {product.codigo_red[0].codigo}
+          </CustomTableCell>
+          <CustomTableCell valign="middle" align="center" header={headers[1]}>
+            {product.marca}
+          </CustomTableCell>
+          <CustomTableCell valign="middle" align="center" header={headers[2]}>
+            {product.rubro}
+          </CustomTableCell>
+          <Popover
+            anchorEl={anchorEl}
             sx={{
-              backgroundColor: '#ff000024',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '7px 10px',
-              border: 'solid 1px black',
-              borderRadius: '10px',
-              margin: 0,
+              width: matchesMobile ? '91%' : '60%',
+              pointerEvents: 'none',
+            }}
+            open={open}
+            onClose={handlePopoverClose}
+            anchorReference="anchorEl"
+            anchorPosition={{ top: 0, left: 0 }}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'left',
             }}>
-            {product.nombre}
-          </Box>
-        </CustomTableCell>
+            <Card
+              sx={{
+                width: matchesMobile ? '100%' : '400px',
+                display: 'flex',
+                flexDirection: 'row',
+              }}>
+              {/* <CardMedia component={'image'} imageRendering={product.image} /> */}
 
-        <CustomTableCell valign="middle" align="center">
-          {new Intl.NumberFormat('es-AR', {
-            style: 'percent',
-            maximumFractionDigits: 2,
-            minimumFractionDigits: 1,
-          }).format(product.tasa_iva)}
-        </CustomTableCell>
-        <CustomTableCell padding="none">
-          <StockComp stock={stockDeProducto} />
-        </CustomTableCell>
-        {product && (
-          <CantCell
+              <img
+                srcSet={product.image}
+                alt={product.nombre}
+                width={'40%'}
+                height={'80%'}
+              />
+
+              <CardContent>
+                <Typography>{product.descripcion}</Typography>
+              </CardContent>
+            </Card>
+          </Popover>
+          <CustomTableCell
+            padding="none"
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+            aria-owns={open ? 'mouse-over-popover' : undefined}
+            aria-haspopup="true"
+            header={headers[3]}>
+            <Box
+              sx={{
+                backgroundColor: '#ff000024',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '7px 10px',
+                border: 'solid 1px black',
+                borderRadius: '10px',
+                margin: 0,
+              }}>
+              {product.nombre}
+            </Box>
+          </CustomTableCell>
+
+          <CustomTableCell valign="middle" align="center" header={headers[4]}>
+            {new Intl.NumberFormat('es-AR', {
+              style: 'percent',
+              maximumFractionDigits: 2,
+              minimumFractionDigits: 1,
+            }).format(product.tasa_iva)}
+          </CustomTableCell>
+          <CustomTableCell padding="none" header={headers[5]}>
+            <StockComp stock={stockDeProducto} />
+          </CustomTableCell>
+          {product && (
+            <CantCell
+              valign="middle"
+              align="center"
+              carrito={carrito}
+              product={product}
+              cant={prodInCarrito?.cant || 0}
+              header={headers[6]}></CantCell>
+          )}
+
+          <CustomTableCell
+            className="price-cell"
             valign="middle"
             align="center"
-            carrito={carrito}
-            product={product}
-            cant={prodInCarrito?.cant || 0}></CantCell>
-        )}
-
-        <CustomTableCell
-          valign="middle"
-          align="center"
-          sx={{ backgroundColor: '#df94942b', fontSize: 'min(1.2vw, 15px)' }}>
-          {'$ ' +
-            new Intl.NumberFormat('es-AR', {
-              currency: 'ARG',
-            }).format(product.precio_arg)}
-        </CustomTableCell>
-        <CustomTableCell
-          valign="middle"
-          align="center"
-          sx={{ backgroundColor: '#d6ffe6', fontSize: 'min(1.2vw, 15px)' }}>
-          {
-            '$ ' +
+            sx={{ backgroundColor: '#df94942b', fontSize: 'min(1.2vw, 15px)' }}
+            header={headers[7]}>
+            {'$ ' +
               new Intl.NumberFormat('es-AR', {
                 currency: 'ARG',
-                maximumFractionDigits: 0,
-              }).format(product.precio_arg * (1 + product.tasa_iva) * 1.25) // Ver Cant!!!!
-          }
-        </CustomTableCell>
-        <CustomTableCell
-          valign="middle"
-          align="center"
-          sx={{ backgroundColor: '#fdffd2', fontSize: 'min(1.2vw, 15px)' }}>
-          {
-            '$ ' +
-              new Intl.NumberFormat('es-AR', {
-                currency: 'ARG',
-                maximumFractionDigits: 0,
-              }).format(
-                product.precio_arg * (1 + product.tasa_iva) * 1.25 * 1.3,
-              ) // Ver Cant!!!!
-          }
-        </CustomTableCell>
-      </TableRow>
+              }).format(product.precio_arg)}
+          </CustomTableCell>
+          <CustomTableCell
+            className="price-cell"
+            valign="middle"
+            align="center"
+            sx={{ backgroundColor: '#d6ffe6', fontSize: 'min(1.2vw, 15px)' }}
+            header={headers[8]}>
+            {
+              '$ ' +
+                new Intl.NumberFormat('es-AR', {
+                  currency: 'ARG',
+                  maximumFractionDigits: 0,
+                }).format(product.precio_arg * (1 + product.tasa_iva) * 1.25) // Ver Cant!!!!
+            }
+          </CustomTableCell>
+          <CustomTableCell
+            className="price-cell"
+            valign="middle"
+            align="center"
+            sx={{ backgroundColor: '#fdffd2', fontSize: 'min(1.2vw, 15px)' }}
+            header={headers[9]}>
+            {
+              '$ ' +
+                new Intl.NumberFormat('es-AR', {
+                  currency: 'ARG',
+                  maximumFractionDigits: 0,
+                }).format(
+                  product.precio_arg * (1 + product.tasa_iva) * 1.25 * 1.3,
+                ) // Ver Cant!!!!
+            }
+          </CustomTableCell>
+        </TableRow>
+      </div>
     )
   );
 };

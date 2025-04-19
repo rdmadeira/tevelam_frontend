@@ -7,7 +7,7 @@ import * as cartActions from '../redux/cart/cartActions';
 import { CustomTableCell } from '../components/ProductRow.jsx';
 import { Typography, Tooltip } from '@mui/material';
 
-const CantCell = ({ product, carrito, cant, ...args }) => {
+const CantCell = ({ header, product, carrito, cant, ...args }) => {
   const dispatch = useDispatch();
   const [cantError, setCantError] = React.useState(false);
 
@@ -97,6 +97,8 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
   ) : (
     <CustomTableCell
       {...args}
+      header={header}
+      id="cant-cell"
       sx={{
         padding: 0,
         border: cantError && 'solid 2px #ffc9c9',
@@ -116,14 +118,15 @@ const CantCell = ({ product, carrito, cant, ...args }) => {
           onFocus={(e) => e.target.select()}
           defaultValue={cant}
           /* value={0} */
-          className="[&::-webkit-inner-spin-button]:appearance-none"
+          className="cant-cell"
           style={{
             border: 'none',
             height: '100%',
             textAlign: 'center',
             width: '5vw',
             padding: '10%',
-            fontSize: 'min(1.2vw, 15px)',
+            fontSize: 'max(min(1.2vw, 15px), 10px)',
+
             backgroundColor: cantError && '#ffc9c9',
           }}
           onBlur={(e) => changeNumberHandle(e)}

@@ -8,6 +8,7 @@ const TableHeaderRow = ({ headers }) => {
         headers.map((header) => (
           <TableCell
             key={'key' + header}
+            className="table-header-cell"
             valign="middle"
             sx={{ color: '#585353', fontSize: '1.4vw' }}
             align="center"
