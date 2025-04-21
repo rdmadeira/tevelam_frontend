@@ -6,7 +6,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { useDispatch } from 'react-redux';
 import * as userActions from '../redux/user/userActions';
 
-const GoogleLogoutComp = ({ empresa }) => {
+const GoogleLogoutComp = ({ empresa, ...args }) => {
   const dispatch = useDispatch();
   const logoutHandle = () => {
     googleLogout();
@@ -18,7 +18,8 @@ const GoogleLogoutComp = ({ empresa }) => {
       variant="contained"
       color={empresa === 'tevelam' ? 'error' : 'info'}
       startIcon={<GoogleIcon />}
-      onClick={logoutHandle}>
+      onClick={logoutHandle}
+      {...args}>
       Logout
     </Button>
   );

@@ -22,7 +22,7 @@ function formReducer(state, action) {
   }
 }
 
-const HeaderForm = ({ handleClickOpen }) => {
+const HeaderForm = ({ handleClickOpen, matchesMobile }) => {
   const carrito = useSelector((store) => store.carrito);
   const user = useSelector((store) => store.user);
   const [formState, formDispatch] = React.useReducer(formReducer, {
@@ -71,7 +71,7 @@ const HeaderForm = ({ handleClickOpen }) => {
             type="text"
             name="numerocliente"
             endAdornment={
-              <InputAdornment position="start">
+              <InputAdornment position="start" sx={{ color: '#ffffff6b' }}>
                 <CreateIcon />
               </InputAdornment>
             }
@@ -82,7 +82,7 @@ const HeaderForm = ({ handleClickOpen }) => {
             type="text"
             name="cliente"
             endAdornment={
-              <InputAdornment position="start">
+              <InputAdornment position="start" sx={{ color: '#ffffff6b' }}>
                 <CreateIcon />
               </InputAdornment>
             }
@@ -93,7 +93,7 @@ const HeaderForm = ({ handleClickOpen }) => {
             type="number"
             name="condicion"
             endAdornment={
-              <InputAdornment position="start">
+              <InputAdornment position="start" sx={{ color: '#ffffff6b' }}>
                 <PercentIcon />
               </InputAdornment>
             }
@@ -105,7 +105,7 @@ const HeaderForm = ({ handleClickOpen }) => {
             name="obs"
             required={false}
             endAdornment={
-              <InputAdornment position="start">
+              <InputAdornment position="start" sx={{ color: '#ffffff6b' }}>
                 <CreateIcon />
               </InputAdornment>
             }

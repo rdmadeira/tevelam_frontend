@@ -3,9 +3,7 @@ import { Box } from '@mui/material';
 import FilterComponent from './FilterComponent.jsx';
 import { useSelector } from 'react-redux';
 
-const FilterContainer = ({
-  products /* , filterValues, setFilterValues */,
-}) => {
+const FilterContainer = ({ products }) => {
   const [itemsToSelect, setItemsToSelect] = React.useState({
     marcas: [],
     rubro: [],

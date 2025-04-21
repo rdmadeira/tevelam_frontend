@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Alert, Button } from '@mui/material';
+import { Box, Alert, useMediaQuery } from '@mui/material';
 
 import GoogleLoginComp from './GoogleLogin.jsx';
 import HeaderForm from './HeaderForm.jsx';
@@ -10,18 +10,10 @@ import useAxios from '../hooks/useAxios.js';
 const Header = ({ empresa, user, handleClickOpen, isAdmin }) => {
   const axiosInstance = useAxios(user);
   const refInput = React.useRef(null);
+  const matchesMobile = useMediaQuery('(max-width:600px)');
 
   const handleSendFile = (event) => {
     event.preventDefault();
-    // console.log('formData', formData);
-
-    /* console.log('e.t.files[0]', event.target.files[0]);
-    let fileBlob;
-    event.target.files[0].arrayBuffer().then((resp) => {
-      fileBlob = resp;
-      console.log('fileBlob', fileBlob);
-      }); */
-    console.log('event.target', event.target);
 
     const formData = new FormData(event.target);
 
@@ -49,42 +41,53 @@ const Header = ({ empresa, user, handleClickOpen, isAdmin }) => {
         display: 'Flex',
         justifyContent: 'space-between',
         alignItems: 'stretch',
-        backgroundColor: empresa === 'tevelam' ? '#c46464' : '#4b4b4d',
-        backgroundImage: empresa === 'tevelam' && `url(/assets/tevelam_4.jpg)`,
-        backgroundSize: '111%',
-        backgroundPositionX: 'center',
+        backgroundColor: empresa === 'tevelam' ? '#3d0000' : '#4b4b4d',
+        /*  backgroundImage:
+          empresa === 'tevelam' &&
+          !matchesMobile &&
+          `url(/assets/tevelam_4.jpg)`, */
+        backgroundSize: matchesMobile ? '40%' : '111%',
+        backgroundPositionX: matchesMobile ? 'left' : 'center',
         backgroundBlendMode: 'exclusion',
         padding: '10px 20px 10px 20px',
       }}>
       {
         <>
-          <Box
-            component={'div'}
-            sx={{
-              display: 'flex',
-              backgroundImage:
-                empresa === 'tevelam'
-                  ? `url(/assets/tevelam_3.jpg)`
-                  : `url(/assets/discopro.png)`,
-              backgroundColor: empresa === 'tevelam' && '#524949',
-              backgroundBlendMode: 'exclusion',
-              backgroundPositionY: 'center',
-              backgroundRepeat: 'no-repeat',
-              width: '300px',
-              height: '200px',
+          {!matchesMobile && (
+            <Box
+              component={'div'}
+              sx={{
+                display: 'flex',
+                backgroundImage:
+                  empresa === 'tevelam'
+                    ? `url(/assets/tevelam_3.jpg)`
+                    : `url(/assets/discopro.png)`,
+                backgroundColor: empresa === 'tevelam' && '#524949',
+                backgroundBlendMode: 'exclusion',
+                backgroundPositionY: 'center',
+                backgroundRepeat: 'no-repeat',
+                width: '300px',
+                height: '200px',
 
-              paddingLeft: '0px',
-              paddingRight: '0px',
-            }}></Box>
+                paddingLeft: '0px',
+                paddingRight: '0px',
+              }}></Box>
+          )}
           {user && (
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
+                alignItems: 'center',
+                width: matchesMobile ? '40%' : 'inherit',
               }}>
               <Alert
-                /* icon={false} */ /* severity="info" */
+                sx={{
+                  fontSize: matchesMobile && '0.7rem',
+                  padding: matchesMobile ? '5px 15px' : '5px 10px',
+                  width: 'min-content',
+                }}
                 color={empresa === 'tevelam' ? 'error' : 'info'}
                 variant="filled">
                 {'Lista del ' +
@@ -103,6 +106,7 @@ const Header = ({ empresa, user, handleClickOpen, isAdmin }) => {
                     name="file"
                     accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                     ref={refInput}
+                    style={{ width: matchesMobile ? '90%' : 'inherit' }}
                     // onChange={(event) => handleSendFile(event)}
                   />
                   <button type="submit" form="fileForm">
@@ -118,17 +122,32 @@ const Header = ({ empresa, user, handleClickOpen, isAdmin }) => {
             </Box>
           )}
           {user && (
-            <Box sx={{ width: '30%', textAlign: 'end' }}>
+            <Box
+              sx={{ width: matchesMobile ? '60%' : '30%', textAlign: 'end' }}>
               <Box
                 sx={{
                   display: 'flex',
                   columnGap: '20px',
                   justifyContent: 'flex-end',
                 }}>
-                <ResetCartButton />
-                <GoogleLogoutComp empresa={empresa} />
+                <ResetCartButton
+                  sx={{
+                    width: matchesMobile ? ' max-content' : 'inherit',
+                    fontSize: matchesMobile && '0.5rem',
+                  }}
+                />
+                <GoogleLogoutComp
+                  empresa={empresa}
+                  sx={{
+                    width: matchesMobile ? ' max-content' : 'inherit',
+                    fontSize: matchesMobile && '0.5rem',
+                  }}
+                />
               </Box>
-              <HeaderForm handleClickOpen={handleClickOpen} />
+              <HeaderForm
+                handleClickOpen={handleClickOpen}
+                matchesMobile={matchesMobile}
+              />
             </Box>
           )}
         </>

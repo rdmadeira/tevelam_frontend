@@ -1,13 +1,10 @@
 import React from 'react';
 import { Table, TableBody, TableHead, TableContainer } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import ProductRow from './ProductRow.jsx';
 import TableHeaderRow from './TableHeaderRow.jsx';
 
-const TableComp = ({ products }) => {
-  const matchesMobile = useMediaQuery('(max-width:600px)');
-
+const TableComp = ({ products, matchesMobile }) => {
   const headers = [
     'Codigo',
     'Marca',

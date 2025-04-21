@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Paper, Box } from '@mui/material';
-
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 
@@ -20,11 +20,8 @@ const Main = () => {
   const user = useSelector((state) => state.user);
 
   const [products, setProducts] = React.useState(null);
-  /* const [products, productsDispatch] = React.useReducer(productsReducer, {
-    isLoading: false,
-    isFetched: false,
-    data: null,
-  }); */
+  const matchesMobile = useMediaQuery('(max-width:600px)');
+
   const [backdropOpen, setBackdropOpen] = React.useState(false);
   const [isAdmin, setIsAdmin] = React.useState(false);
 
@@ -141,7 +138,12 @@ const Main = () => {
                 ))}
               </Box>
             )}
-            {user && products && <FilterContainer products={products} />}
+            {user && products && !matchesMobile && (
+              <FilterContainer
+                products={products}
+                matchesMobile={matchesMobile}
+              />
+            )}
             {
               <SpinnerBackdrop
                 backdropOpen={backdropOpen}
@@ -149,7 +151,9 @@ const Main = () => {
                 size={40}
               />
             }
-            {user && !backdropOpen && <TableComp products={products} />}
+            {user && !backdropOpen && (
+              <TableComp products={products} matchesMobile={matchesMobile} />
+            )}
           </Paper>
         </Container>
       </>

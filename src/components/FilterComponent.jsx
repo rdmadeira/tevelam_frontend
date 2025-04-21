@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import * as filterActions from '../redux/filter/filterActions.js';
 
-const FilterComponent = ({ column, itemsToSelect /*  value */ }) => {
+const FilterComponent = ({ column, itemsToSelect, matchesMobile, ...args }) => {
   const [value, setValue] = React.useState([]);
 
   const dispatch = useDispatch();
@@ -20,14 +20,22 @@ const FilterComponent = ({ column, itemsToSelect /*  value */ }) => {
   };
   return (
     <Autocomplete
-      fullWidth
+      fullWidth={matchesMobile ? false : true}
       multiple
       id="tags-outlined"
       options={itemsToSelect}
       value={value}
       filterSelectedOptions
+      {...args}
+      sx={{ padding: '0' }}
       renderInput={(params) => (
-        <TextField {...params} label={column} placeholder={column} />
+        <TextField
+          {...params}
+          label={column}
+          placeholder={column}
+          size={matchesMobile && 'small'}
+          sx={{ padding: 0, fontSize: '0.5rem' }}
+        />
       )}
       onChange={(e, nv) => handleChange(e, nv)}>
       {/* <InputLabel id="select-label">{column}</InputLabel>

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import * as cartActions from '../redux/cart/cartActions';
 
 import { CustomTableCell } from '../components/ProductRow.jsx';
-import { Typography, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 
 const CantCell = ({ header, product, carrito, cant, ...args }) => {
   const dispatch = useDispatch();

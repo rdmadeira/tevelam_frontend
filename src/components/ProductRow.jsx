@@ -110,8 +110,8 @@ const ProductRow = ({ product, headers }) => {
           <Popover
             anchorEl={anchorEl}
             sx={{
-              width: matchesMobile ? '91%' : '60%',
               pointerEvents: 'none',
+              maxWidth: matchesMobile ? 'unset' : 'inherit',
             }}
             open={open}
             onClose={handlePopoverClose}
@@ -123,7 +123,8 @@ const ProductRow = ({ product, headers }) => {
             }}>
             <Card
               sx={{
-                width: matchesMobile ? '100%' : '400px',
+                width: matchesMobile ? '85vw' : '400px',
+                maxWidth: matchesMobile ? 'unset' : 'inherit',
                 display: 'flex',
                 flexDirection: 'row',
               }}>
