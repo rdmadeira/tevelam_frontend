@@ -16,6 +16,9 @@ span.cell-header {
   display: none;
 }
 
+.table-row-conteiner {
+  display: contents;
+}
 @media screen and (max-width: 600px) {
   div.table-row-conteiner {
     display: flex;

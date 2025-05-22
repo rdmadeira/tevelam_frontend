@@ -34,27 +34,10 @@ const FilterComponent = ({ column, itemsToSelect, matchesMobile, ...args }) => {
           label={column}
           placeholder={column}
           size={matchesMobile && 'small'}
-          sx={{ padding: 0, fontSize: '0.5rem' }}
+          sx={{ padding: 0, fontSize: 'min(1.2vw, 15px)' }}
         />
       )}
-      onChange={(e, nv) => handleChange(e, nv)}>
-      {/* <InputLabel id="select-label">{column}</InputLabel>
-      <Select
-        labelId="select-label"
-        id="simple-select"
-        value={value}
-        label={column}
-        multiple
-        onChange={(e) => handleChange(e)}>
-        {itemsToSelect?.map((item) => {
-          return (
-            <MenuItem key={item} value={item}>
-              {item}
-            </MenuItem>
-          );
-        })}
-      </Select> */}
-    </Autocomplete>
+      onChange={(e, nv) => handleChange(e, nv)}></Autocomplete>
   );
 };
 

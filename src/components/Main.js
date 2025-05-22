@@ -13,6 +13,7 @@ import Image from './CustomImage.jsx';
 import logoMarcas from '../data/logomarcas.json';
 import OrderDialogConfirm from './OrderDialogConfirm.jsx';
 import SpinnerBackdrop from './MyBackdrop.jsx';
+import FilterAllComponent from './FilterAllComponent.jsx';
 
 import * as userActions from '../redux/user/userActions.js';
 
@@ -20,6 +21,7 @@ const Main = () => {
   const user = useSelector((state) => state.user);
 
   const [products, setProducts] = React.useState(null);
+  const [filteredProducts, setFilteredProducts] = React.useState(products);
   const matchesMobile = useMediaQuery('(max-width:600px)');
 
   const [backdropOpen, setBackdropOpen] = React.useState(false);
@@ -67,7 +69,10 @@ const Main = () => {
       axiosInstance
         .get(entidad)
         .then((value) => {
+          /* console.log('value.data.data', value.data.data); */
+
           setBackdropOpen(false);
+          setFilteredProducts(value.data.data);
           setProducts(value.data.data);
         })
         .catch((error) => {
@@ -90,6 +95,8 @@ const Main = () => {
     reduxdispatch,
     setBackdropOpen,
   ]);
+
+  /* console.log('filteredProducts', filteredProducts); */
 
   return (
     <Box
@@ -138,11 +145,17 @@ const Main = () => {
                 ))}
               </Box>
             )}
-            {user && products && !matchesMobile && (
-              <FilterContainer
-                products={products}
-                matchesMobile={matchesMobile}
-              />
+            {user && filteredProducts && !matchesMobile && (
+              <>
+                <FilterAllComponent
+                  products={products}
+                  setFilteredProducts={setFilteredProducts}
+                />
+                <FilterContainer
+                  products={filteredProducts}
+                  matchesMobile={matchesMobile}
+                />
+              </>
             )}
             {
               <SpinnerBackdrop
@@ -152,7 +165,13 @@ const Main = () => {
               />
             }
             {user && !backdropOpen && (
-              <TableComp products={products} matchesMobile={matchesMobile} />
+              <>
+                {/* <BasicExampleDataGrid /> */}
+                <TableComp
+                  products={filteredProducts}
+                  matchesMobile={matchesMobile}
+                />
+              </>
             )}
           </Paper>
         </Container>
